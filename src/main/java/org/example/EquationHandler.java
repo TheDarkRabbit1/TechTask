@@ -7,21 +7,33 @@ public class EquationHandler {
     private boolean viableEquation = true;
 
     public EquationHandler(String str) {
-        this.str = str;
+        this.str = str.replaceAll("\\s+", "");
+        checkNullEmpty();
         symbolsRegexOnString();
         bracketBalance();
         doubleOperationHandler();
     }
+    private void checkNullEmpty(){
+        if (str==null || str.isEmpty()){
+            viableEquation=false;
+            throw new RuntimeException("Equation is null or empty");
+        }
+    }
 
     private void symbolsRegexOnString() {
-        String regex = "[\\d.x/*+()\\-\\s\\^]+\n";
-        if (!Pattern.matches(this.str, regex))
+        String regex = "^[/*\\-+^.\\da-z=]+$";
+        Pattern pattern = Pattern.compile(regex);
+        if (!pattern.matcher(str).matches()) {
             viableEquation = false;
+            throw new RuntimeException("unexpected symbol, for String: "+this.str);
+        }
     }
 
     private void bracketBalance() {
-        if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count()) == 0)
+        if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count())!=0){
             viableEquation = false;
+            throw new RuntimeException("brackets aren't balanced");
+        }
     }
 
     private void doubleOperationHandler() {
@@ -30,6 +42,8 @@ public class EquationHandler {
             if ((eqInChars[i] == '+' || eqInChars[i] == '-' || eqInChars[i] == '*' || eqInChars[i] == '/')
                     && (!(Character.isDigit(eqInChars[i + 1]) || eqInChars[i + 1] == 'x'))) {
                 viableEquation = false;
+                throw new RuntimeException("2 symbols in a row");
+                //TODO don't count for *- /-
             }
         }
     }
