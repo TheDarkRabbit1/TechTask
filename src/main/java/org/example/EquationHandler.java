@@ -3,47 +3,57 @@ package org.example;
 import java.util.regex.Pattern;
 
 public class EquationHandler {
-    private final String str;
+    private String str;
     private boolean viableEquation = true;
 
     public EquationHandler(String str) {
-        this.str = str.replaceAll("\\s+", "");
-        checkNullEmpty();
-        symbolsRegexOnString();
-        bracketBalance();
-        doubleOperationHandler();
+        this.str = str;
+        if(str!=null){
+
+            checkNullEmpty();
+            symbolsRegexOnString();
+            bracketBalance();
+            doubleOperationHandler();
+        }else{
+            this.viableEquation=false;
+            System.out.println("The Equation is Null");
+        }
     }
     private void checkNullEmpty(){
-        if (str==null || str.isEmpty()){
+        if (str.isEmpty()){
             viableEquation=false;
-            throw new RuntimeException("Equation is null or empty");
-        }
+            System.out.println("Equation is empty");
+        }else{this.str=str.replaceAll("\\s+", "");}
     }
 
     private void symbolsRegexOnString() {
+        if (!this.str.contains("="))
+            this.viableEquation=false;
         String regex = "^[/*\\-+^.\\da-z=]+$";
         Pattern pattern = Pattern.compile(regex);
         if (!pattern.matcher(str).matches()) {
             viableEquation = false;
-            throw new RuntimeException("unexpected symbol, for String: "+this.str);
+            System.out.println("unexpected symbol, for String: "+this.str);
         }
     }
 
     private void bracketBalance() {
         if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count())!=0){
             viableEquation = false;
-            throw new RuntimeException("brackets aren't balanced");
+            System.out.println("brackets aren't balanced:"+str.chars().filter(c -> c == '(').count()
+                    +" "+str.chars().filter(c -> c == ')').count());
         }
     }
 
     private void doubleOperationHandler() {
         char[] eqInChars = this.str.toLowerCase().toCharArray();
-        for (int i = 0; i < eqInChars.length; i++) {
-            if ((eqInChars[i] == '+' || eqInChars[i] == '-' || eqInChars[i] == '*' || eqInChars[i] == '/')
-                    && (!(Character.isDigit(eqInChars[i + 1]) || eqInChars[i + 1] == 'x'))) {
+        Pattern firstSigns = Pattern.compile("[+\\-*/]");
+        Pattern secondSigns = Pattern.compile("(?<![\\+\\-\\(])[*/]");
+        for (int i = 0; i < eqInChars.length-1; i++) {
+            Character current=eqInChars[i], next=eqInChars[i+1];
+            if (firstSigns.matcher(current.toString()).matches() && secondSigns.matcher(next.toString()).matches()) {
                 viableEquation = false;
-                throw new RuntimeException("2 symbols in a row");
-                //TODO don't count for *- /-
+                System.out.println("Two symbols in a row: " + current+ next);
             }
         }
     }
