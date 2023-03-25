@@ -42,10 +42,17 @@ public class EquationHandler {
     }
 
     private void bracketBalance() {
-        if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count()) != 0) {
-            viableEquation = false;
-            System.out.println("brackets aren't balanced:" + str.chars().filter(c -> c == '(').count()
-                    + " " + str.chars().filter(c -> c == ')').count()+" for eq:"+this.str);
+        int opencount=0, closecount=0;
+        for (char c :this.str.toCharArray()){
+            if (c=='(')
+                opencount++;
+            else if (c==')'){
+                closecount++;
+                if (opencount<closecount) {
+                    this.viableEquation = false;
+                    System.out.println("')' is going before '('");
+                }
+            }
         }
     }
 

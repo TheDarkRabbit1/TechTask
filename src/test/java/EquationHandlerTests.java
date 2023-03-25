@@ -22,6 +22,9 @@ public class EquationHandlerTests {
     public void bracketsBalance() {
         assertEquals(false, new EquationHandler(")2*x+5=19").isViable());
         assertEquals(true, new EquationHandler("2*(x+5)=17()").isViable());
+        assertEquals(true, new EquationHandler("((x+4)*5)-1=8").isViable());
+        assertEquals(false, new EquationHandler(")(x+4=3").isViable());
+
     }
 
     @Test
