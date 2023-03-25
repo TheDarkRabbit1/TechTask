@@ -8,52 +8,56 @@ public class EquationHandler {
 
     public EquationHandler(String str) {
         this.str = str;
-        if(str!=null){
-
+        if (str != null) {
             checkNullEmpty();
             symbolsRegexOnString();
             bracketBalance();
             doubleOperationHandler();
-        }else{
-            this.viableEquation=false;
+        } else {
+            this.viableEquation = false;
             System.out.println("The Equation is Null");
         }
     }
-    private void checkNullEmpty(){
-        if (str.isEmpty()){
-            viableEquation=false;
+
+    private void checkNullEmpty() {
+        if (str.isEmpty()) {
+            viableEquation = false;
             System.out.println("Equation is empty");
-        }else{this.str=str.replaceAll("\\s+", "");}
+        } else {
+            this.str = str.replaceAll("\\s+", "");
+        }
     }
 
     private void symbolsRegexOnString() {
-        if (!this.str.contains("="))
-            this.viableEquation=false;
-        String regex = "^[/*\\-+^.\\da-z=]+$";
+        if (!this.str.contains("=")) {
+            System.out.println("No '=' in equation");
+            this.viableEquation = false;
+        }
+        String regex = "^[/*\\-+^.\\da-z=()]+$";
         Pattern pattern = Pattern.compile(regex);
         if (!pattern.matcher(str).matches()) {
             viableEquation = false;
-            System.out.println("unexpected symbol, for String: "+this.str);
+            System.out.println("unexpected symbol, for String: " + this.str);
         }
     }
 
     private void bracketBalance() {
-        if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count())!=0){
+        if ((str.chars().filter(c -> c == '(').count() - str.chars().filter(c -> c == ')').count()) != 0) {
             viableEquation = false;
-            System.out.println("brackets aren't balanced:"+str.chars().filter(c -> c == '(').count()
-                    +" "+str.chars().filter(c -> c == ')').count());
+            System.out.println("brackets aren't balanced:" + str.chars().filter(c -> c == '(').count()
+                    + " " + str.chars().filter(c -> c == ')').count()+" for eq:"+this.str);
         }
     }
 
     private void doubleOperationHandler() {
         char[] eqInChars = this.str.toLowerCase().toCharArray();
         Pattern firstSigns = Pattern.compile("[+\\-*/]");
-        Pattern secondSigns = Pattern.compile("(?<![\\+\\-\\(])[*/]");
-        for (int i = 0; i < eqInChars.length-1; i++) {
-            Character current=eqInChars[i], next=eqInChars[i+1];
+        Pattern secondSigns = Pattern.compile("(?<![+\\-(])[*/]");
+        for (int i = 0; i < eqInChars.length - 1; i++) {
+            Character current = eqInChars[i], next = eqInChars[i + 1];
             if (firstSigns.matcher(current.toString()).matches() && secondSigns.matcher(next.toString()).matches()) {
                 viableEquation = false;
-                System.out.println("Two symbols in a row: " + current+ next);
+                System.out.println("Two symbols in a row: " + current + next);
             }
         }
     }
