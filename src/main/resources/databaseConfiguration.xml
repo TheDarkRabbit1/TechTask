@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Database connection properties</comment>
+    <entry key="driver">org.postgresql.Driver</entry>
+    <entry key="url">jdbc:postgresql://localhost:5432/testtask</entry>
+    <entry key="user">postgres</entry>
+    <entry key="password"></entry>
+</properties>

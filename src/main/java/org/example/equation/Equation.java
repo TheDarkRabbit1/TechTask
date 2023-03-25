@@ -1,12 +1,12 @@
-package org.example;
+package org.example.equation;
 
 import java.util.regex.Pattern;
 
-public class EquationHandler {
+public class Equation {
     private String str;
     private boolean viableEquation = true;
 
-    public EquationHandler(String str) {
+    public Equation(String str) {
         this.str = str;
         if (str != null) {
             checkNullEmpty();
