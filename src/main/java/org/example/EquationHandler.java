@@ -72,6 +72,10 @@ public class EquationHandler {
     public String getStr() {
         return str;
     }
+    public long getNumbers(){
+        Pattern pattern = Pattern.compile("\\d+");
+        return pattern.matcher(this.str).results().count();
+    }
 
     public boolean isViable() {
         return viableEquation;

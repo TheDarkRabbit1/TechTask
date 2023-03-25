@@ -6,8 +6,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input equation:");
-        String equation = scanner.nextLine();
-        EquationHandler equationHandler = new EquationHandler(equation);
-        System.out.println("Equation is viable:"+equationHandler.isViable());
+        String equationString = scanner.nextLine();
+        EquationHandler equation = new EquationHandler(equationString);
+        System.out.println("Equation is viable:"+equation.isViable()+" contains "+equation.getNumbers()+" numbers");
+
     }
 }
