@@ -84,4 +84,18 @@ public class Equation {
     public boolean isViable() {
         return viableEquation;
     }
+
+    public long getId() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Equation{" +
+                "id=" + id +
+                ", body='" + body + '\'' +
+                ", roots=" + roots +
+                ", viableEquation=" + viableEquation +
+                '}';
+    }
 }
