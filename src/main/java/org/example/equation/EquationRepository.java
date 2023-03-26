@@ -120,6 +120,22 @@ public class EquationRepository implements EquationDAO {
         return equations;
     }
 
+    @Override
+    public List<Float> getRootsForEquation(long id) {
+        List<Float> roots = null;
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQLConstants.getRootsOfEquation);
+            preparedStatement.setFloat(1,id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                roots.add(rs.getFloat("root"));
+            }
+        }catch (SQLException|IOException|ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return roots;
+    }
+
     private Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
         InputStream in = Main.class.getResourceAsStream("databaseConfiguration.xml");
         Properties props = new Properties();
@@ -130,7 +146,6 @@ public class EquationRepository implements EquationDAO {
         String url = props.getProperty("url");
         String user = props.getProperty("user");
         String password = props.getProperty("password");
-
         return DriverManager.getConnection(url, user, password);
     }
 }

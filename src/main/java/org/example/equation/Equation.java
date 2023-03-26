@@ -32,8 +32,8 @@ public class Equation {
     }
 
     private void symbolsRegexOnString() {
-        if (!this.body.contains("=")) {
-            System.out.println("No '=' in equation");
+        if (!(this.body.chars().filter(c->c=='=').count()==1)) {
+            System.out.println("The '=' count isn't 1");
             this.viableEquation = false;
         }
         String regex = "^[/*\\-+^.\\da-z=()]+$";

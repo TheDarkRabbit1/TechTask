@@ -1,5 +1,7 @@
 package org.example.equation;
 
+import org.matheclipse.parser.client.eval.DoubleEvaluator;
+
 import java.util.List;
 
 public class EquationService {
@@ -26,8 +28,18 @@ public class EquationService {
                 .forEach(r -> equationRepository.saveRoot(equation.getId(), r));
     }
 
-    private boolean isRootFitsForEquation(Equation equation, Float root) {
-        return false;
+    public boolean isRootFitsForEquation(Equation equation, Float root) {
+        DoubleEvaluator engine = new DoubleEvaluator();
+        String[] sides = equation.getBody().split("=");
+        engine.defineVariable("x", root);
+        try {
+            double leftSide = engine.evaluate(sides[0]);
+            double rightSide = engine.evaluate(sides[1]);
+            return Math.abs(leftSide - rightSide) < 1e-6;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Equation> searchByRoot(Float root) {

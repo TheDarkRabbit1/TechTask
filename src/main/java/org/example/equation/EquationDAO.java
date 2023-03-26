@@ -1,5 +1,6 @@
 package org.example.equation;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface EquationDAO {
@@ -10,4 +11,5 @@ public interface EquationDAO {
     List<Equation> getEquations();
     List<Equation> getEquationsByRoot(Float root);
     List<Equation> getOnlyOneRootEquations();
+    List<Float> getRootsForEquation(long id);
 }
