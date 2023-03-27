@@ -4,6 +4,6 @@
     <comment>Database connection properties</comment>
     <entry key="driver">org.postgresql.Driver</entry>
     <entry key="url">jdbc:postgresql://localhost:5432/testtask</entry>
-    <entry key="user">GFL</entry>
+    <entry key="user">gfl</entry>
     <entry key="password">password</entry>
 </properties>

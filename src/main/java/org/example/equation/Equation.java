@@ -1,6 +1,7 @@
 package org.example.equation;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Equation {
@@ -76,6 +77,14 @@ public class Equation {
         return body;
     }
 
+    public void setRoots(List<Float> roots) {
+        this.roots = roots;
+    }
+
+    public List<Float> getRoots() {
+        return roots;
+    }
+
     public long getNumbers() {
         Pattern pattern = Pattern.compile("\\d+");
         return pattern.matcher(this.body).results().count();
@@ -91,6 +100,19 @@ public class Equation {
 
     public void setId(long id) {
         this.id = id;
+    }
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Equation other = (Equation) obj;
+        return Objects.equals(body, other.body) &&
+                Objects.equals(roots, other.roots) &&
+                viableEquation == other.viableEquation;
     }
 
     @Override
