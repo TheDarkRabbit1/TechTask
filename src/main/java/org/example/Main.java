@@ -62,7 +62,12 @@ public class Main {
         }
     }
     private static void getAllEquationsMenu(){
-        equationService.getEqations().forEach(e -> System.out.print(e.toString()));
+        List<Equation> equations =  equationService.getEqations();
+        if (equations.isEmpty()){
+            System.out.println("No equations found in DataBase");
+        }else{
+            equations.forEach(e -> System.out.print(e.toString()));
+        }
     }
     private static void addEquationMenu(){
         System.out.println("Input equation:");
@@ -78,8 +83,12 @@ public class Main {
             case 1 -> {
                 scanner.nextLine();
                 System.out.println("enter root:");
-                equationService.searchByRoot(scanner.nextFloat())
-                        .forEach(e-> System.out.print(e.toString()));
+                List<Float> roots= null;
+                if (roots.isEmpty()){
+                    System.out.println("No such equations with mentioned root");
+                }else{
+                    roots.forEach(e-> System.out.print(e.toString()));
+                }
             }
             case 2 -> {
                 List<Equation> equations = equationService.oneRootOnlyEquations();
